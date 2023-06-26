@@ -4,6 +4,19 @@ from django.contrib import admin
 
 from .models import StartEvent, AnswerEvent, ResultEvent
 
-admin.site.register(StartEvent)
-admin.site.register(AnswerEvent)
-admin.site.register(ResultEvent)
+
+class StartEventAdmin(admin.ModelAdmin):
+    readonly_fields = ("datetime",)
+
+
+class AnswerEventAdmin(admin.ModelAdmin):
+    readonly_fields = ("datetime",)
+
+
+class ResultEventAdmin(admin.ModelAdmin):
+    readonly_fields = ("datetime",)
+
+
+admin.site.register(StartEvent, StartEventAdmin)
+admin.site.register(AnswerEvent, AnswerEventAdmin)
+admin.site.register(ResultEvent, ResultEventAdmin)

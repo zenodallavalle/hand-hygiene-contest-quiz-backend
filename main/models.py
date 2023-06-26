@@ -9,7 +9,7 @@ from threading import Thread
 
 class StartEvent(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
-    uid = models.CharField(max_length=100)
+    device_uid = models.CharField(max_length=100)
     ip = models.CharField(max_length=100)
     user_agent = models.CharField(max_length=1000)
 
@@ -27,18 +27,20 @@ class StartEvent(models.Model):
     recaptcha_token = models.CharField(max_length=2000)
     recaptcha_score = models.FloatField(null=True)
 
+    quiz_uid = models.CharField(max_length=100)
+
     nickname = models.CharField(max_length=100)
 
     def __str__(self):
-        return f"[{self.datetime}] [{self.uid}] [{self.ip}] {self.nickname}"
+        return f"[{self.datetime}] [{self.quiz_uid}] [{self.device_uid}] [{self.ip}] {self.nickname}"
 
     def __repr__(self) -> str:
-        return f"<StartEvent {self.datetime} {self.uid} {self.ip}: {self.nickname}>"
+        return f"<StartEvent {self.datetime} {self.quiz_uid} {self.device_uid} {self.ip}: {self.nickname}>"
 
 
 class AnswerEvent(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
-    uid = models.CharField(max_length=100)
+    device_uid = models.CharField(max_length=100)
     ip = models.CharField(max_length=100)
     user_agent = models.CharField(max_length=1000)
 
@@ -47,6 +49,8 @@ class AnswerEvent(models.Model):
 
     recaptcha_token = models.CharField(max_length=2000)
     recaptcha_score = models.FloatField(null=True)
+
+    quiz_uid = models.CharField(max_length=100)
 
     nickname = models.CharField(max_length=100)
 
@@ -56,15 +60,15 @@ class AnswerEvent(models.Model):
     answer_text = models.TextField()
 
     def __str__(self):
-        return f"[{self.datetime}] [{self.uid}] [{self.ip}] [{self.nickname}] answer_id {self.answer_id} to question_id {self.question_id}"
+        return f"[{self.datetime}] [{self.quiz_uid}] [{self.device_uid}] [{self.ip}] [{self.nickname}] answer_id {self.answer_id} to question_id {self.question_id}"
 
     def __repr__(self) -> str:
-        return f"<AnswerEvent {self.datetime} {self.uid} {self.ip} {self.nickname}: answer_id {self.answer_id} to question_id {self.question_id}>"
+        return f"<AnswerEvent {self.datetime} {self.quiz_uid} {self.device_uid} {self.ip} {self.nickname}: answer_id {self.answer_id} to question_id {self.question_id}>"
 
 
 class ResultEvent(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
-    uid = models.CharField(max_length=100)
+    device_uid = models.CharField(max_length=100)
     ip = models.CharField(max_length=100)
     user_agent = models.CharField(max_length=1000)
 
@@ -76,15 +80,15 @@ class ResultEvent(models.Model):
 
     nickname = models.CharField(max_length=100)
 
+    quiz_uid = models.CharField(max_length=100)
+
     marks = models.IntegerField()
 
     def __str__(self):
-        return (
-            f"[{self.datetime}] [{self.uid}] [{self.ip}] [{self.nickname}] {self.marks}"
-        )
+        return f"[{self.datetime}] [{self.quiz_uid}] [{self.device_uid}] [{self.ip}] [{self.nickname}] {self.marks}"
 
     def __repr__(self) -> str:
-        return f"<ResultEvent {self.datetime} {self.uid} {self.ip} {self.nickname}: {self.marks}>"
+        return f"<ResultEvent {self.datetime} {self.quiz_uid} {self.device_uid} {self.ip} {self.nickname}: {self.marks}>"
 
 
 @receiver(post_save, sender=StartEvent)

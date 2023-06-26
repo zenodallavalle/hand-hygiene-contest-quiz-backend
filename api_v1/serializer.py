@@ -19,7 +19,7 @@ class StartEventSerializer(
         fields = "__all__"
 
     datetime = serializers.DateTimeField(read_only=True)
-    uid = serializers.CharField(max_length=100)
+    device_uid = serializers.CharField(max_length=100)
     ip = serializers.CharField(max_length=100, read_only=True)
     user_agent = serializers.CharField(max_length=1000, read_only=True)
 
@@ -28,6 +28,8 @@ class StartEventSerializer(
 
     recaptcha_token = serializers.CharField(max_length=2000)
     recaptcha_score = serializers.FloatField(read_only=True)
+
+    quiz_uid = serializers.CharField(max_length=100)
 
     nickname = serializers.CharField(max_length=100)
 
@@ -40,7 +42,7 @@ class AnswerEventSerializer(
         fields = "__all__"
 
     datetime = serializers.DateTimeField(read_only=True)
-    uid = serializers.CharField(max_length=100)
+    device_uid = serializers.CharField(max_length=100)
     ip = serializers.CharField(max_length=100, read_only=True)
     user_agent = serializers.CharField(max_length=1000, read_only=True)
 
@@ -49,6 +51,8 @@ class AnswerEventSerializer(
 
     recaptcha_token = serializers.CharField(max_length=2000)
     recaptcha_score = serializers.FloatField(read_only=True)
+
+    quiz_uid = serializers.CharField(max_length=100)
 
     nickname = serializers.CharField(max_length=100)
 
@@ -66,7 +70,7 @@ class ResultEventSerializer(
         fields = "__all__"
 
     datetime = serializers.DateTimeField(read_only=True)
-    uid = serializers.CharField(max_length=100)
+    device_uid = serializers.CharField(max_length=100)
     ip = serializers.CharField(max_length=100, read_only=True)
     user_agent = serializers.CharField(max_length=1000, read_only=True)
 
@@ -75,5 +79,7 @@ class ResultEventSerializer(
 
     recaptcha_token = serializers.CharField(max_length=2000)
     recaptcha_score = serializers.FloatField(read_only=True)
+
+    quiz_uid = serializers.CharField(max_length=100)
 
     marks = serializers.IntegerField()
