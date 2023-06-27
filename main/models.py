@@ -7,6 +7,15 @@ from threading import Thread
 # Create your models here.
 
 
+class JobChoices(models.IntegerChoices):
+    MEDICO = 1, "Medico"
+    PROF_SAN = 2, "Professionista sanitario (inferiere, fisioterapista, ecc.)"
+    OSS = 3, "Operatore socio-sanitario"
+    MED_STU = 4, "Studente di medicina/odontoiatria"
+    PROF_SAN_STU = 5, "Studente di professioni sanitarie"
+    OTHER = 6, "Nessuna delle precedenti"
+
+
 class StartEvent(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     device_uid = models.CharField(max_length=100)
@@ -31,6 +40,8 @@ class StartEvent(models.Model):
 
     nickname = models.CharField(max_length=100)
 
+    job = models.IntegerField(choices=JobChoices.choices)
+
     def __str__(self):
         return f"[{self.datetime}] [{self.quiz_uid}] [{self.device_uid}] [{self.ip}] {self.nickname}"
 
@@ -50,9 +61,10 @@ class AnswerEvent(models.Model):
     recaptcha_token = models.CharField(max_length=2000)
     recaptcha_score = models.FloatField(null=True)
 
-    quiz_uid = models.CharField(max_length=100)
-
     nickname = models.CharField(max_length=100)
+    job = models.IntegerField(choices=JobChoices.choices)
+
+    quiz_uid = models.CharField(max_length=100)
 
     question_id = models.IntegerField()
     answer_id = models.IntegerField()
@@ -79,6 +91,7 @@ class ResultEvent(models.Model):
     recaptcha_score = models.FloatField(null=True)
 
     nickname = models.CharField(max_length=100)
+    job = models.IntegerField(choices=JobChoices.choices)
 
     quiz_uid = models.CharField(max_length=100)
 
