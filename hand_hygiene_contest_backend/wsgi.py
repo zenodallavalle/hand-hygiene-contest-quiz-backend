@@ -15,10 +15,10 @@ import sys
 
 from django.core.wsgi import get_wsgi_application
 
-sys.path.append("/var/www/vhosts/hand-hygiene-contest-backend")
+sys.path.append("/var/www/vhosts/hand-hygiene-contest-quiz-backend")
 # adjust the Python version in the line below as needed
 sys.path.append(
-    "/var/www/vhosts/hand-hygiene-contest-backend/env/lib/python3.8/site-packages"
+    "/var/www/vhosts/hand-hygiene-contest-quiz-backend/env/lib/python3.8/site-packages"
 )
 
 os.environ.setdefault(
