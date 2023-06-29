@@ -32,7 +32,7 @@ class StartEventSerializer(
     quiz_uid = serializers.CharField(max_length=100)
 
     nickname = serializers.CharField(max_length=100)
-    job = serializers.IntegerField(min_value=1, max_value=6)
+    job = serializers.IntegerField(min_value=1, max_value=7)
 
 
 class AnswerEventSerializer(
@@ -54,7 +54,7 @@ class AnswerEventSerializer(
     recaptcha_score = serializers.FloatField(read_only=True)
 
     nickname = serializers.CharField(max_length=100)
-    job = serializers.IntegerField(min_value=1, max_value=6)
+    job = serializers.IntegerField(min_value=1, max_value=7)
 
     quiz_uid = serializers.CharField(max_length=100)
 
@@ -83,7 +83,7 @@ class ResultEventSerializer(
     recaptcha_score = serializers.FloatField(read_only=True)
 
     nickname = serializers.CharField(max_length=100)
-    job = serializers.IntegerField(min_value=1, max_value=6)
+    job = serializers.IntegerField(min_value=1, max_value=7)
     quiz_uid = serializers.CharField(max_length=100)
 
     marks = serializers.IntegerField()

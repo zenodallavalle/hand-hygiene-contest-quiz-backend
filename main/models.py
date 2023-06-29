@@ -8,12 +8,13 @@ from threading import Thread
 
 
 class JobChoices(models.IntegerChoices):
-    MEDICO = 1, "Medico"
-    PROF_SAN = 2, "Professionista sanitario (inferiere, fisioterapista, ecc.)"
+    MEDICO = 1, "Medico/odontoiatra"
+    PROF_SAN = 2, "Professionista sanitario (infermiere, fisioterapista, ecc.)"
     OSS = 3, "Operatore socio-sanitario"
     MED_STU = 4, "Studente di medicina/odontoiatria"
     PROF_SAN_STU = 5, "Studente di professioni sanitarie"
-    OTHER = 6, "Nessuna delle precedenti"
+    OTHER_HEALTH = 6, "Altra tipologia di operatore sanitario"
+    OTHER_NOT_HEALTH = 7, "Non operatore sanitario"
 
 
 class StartEvent(models.Model):
