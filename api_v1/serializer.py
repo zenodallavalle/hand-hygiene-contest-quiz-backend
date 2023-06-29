@@ -1,3 +1,4 @@
+from contextlib import nullcontext
 from rest_framework import serializers
 from main.models import AnswerEvent, ResultEvent, StartEvent
 
@@ -20,6 +21,7 @@ class StartEventSerializer(
 
     datetime = serializers.DateTimeField(read_only=True)
     device_uid = serializers.CharField(max_length=100)
+    device_type = serializers.IntegerField(min_value=1, max_value=4, required=False)
     ip = serializers.CharField(max_length=100, read_only=True)
     user_agent = serializers.CharField(max_length=1000, read_only=True)
 
@@ -44,6 +46,7 @@ class AnswerEventSerializer(
 
     datetime = serializers.DateTimeField(read_only=True)
     device_uid = serializers.CharField(max_length=100)
+    device_type = serializers.IntegerField(min_value=1, max_value=4, required=False)
     ip = serializers.CharField(max_length=100, read_only=True)
     user_agent = serializers.CharField(max_length=1000, read_only=True)
 
@@ -73,6 +76,7 @@ class ResultEventSerializer(
 
     datetime = serializers.DateTimeField(read_only=True)
     device_uid = serializers.CharField(max_length=100)
+    device_type = serializers.IntegerField(min_value=1, max_value=4, required=False)
     ip = serializers.CharField(max_length=100, read_only=True)
     user_agent = serializers.CharField(max_length=1000, read_only=True)
 

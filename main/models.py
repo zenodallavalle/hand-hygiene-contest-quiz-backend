@@ -17,9 +17,17 @@ class JobChoices(models.IntegerChoices):
     OTHER_NOT_HEALTH = 7, "Non operatore sanitario"
 
 
+class DeviceChoices(models.IntegerChoices):
+    MOBILE = 1, "Mobile"
+    TABLET = 2, "Tablet"
+    DESKTOP = 3, "Desktop"
+    OTHER = 4, "Altro"
+
+
 class StartEvent(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     device_uid = models.CharField(max_length=100)
+    device_type = models.IntegerField(choices=DeviceChoices.choices, null=True)
     ip = models.CharField(max_length=100)
     user_agent = models.CharField(max_length=1000)
 
@@ -38,7 +46,6 @@ class StartEvent(models.Model):
     recaptcha_score = models.FloatField(null=True)
 
     quiz_uid = models.CharField(max_length=100)
-
     nickname = models.CharField(max_length=100)
 
     job = models.IntegerField(choices=JobChoices.choices)
@@ -53,6 +60,7 @@ class StartEvent(models.Model):
 class AnswerEvent(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     device_uid = models.CharField(max_length=100)
+    device_type = models.IntegerField(choices=DeviceChoices.choices, null=True)
     ip = models.CharField(max_length=100)
     user_agent = models.CharField(max_length=1000)
 
@@ -82,6 +90,7 @@ class AnswerEvent(models.Model):
 class ResultEvent(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     device_uid = models.CharField(max_length=100)
+    device_type = models.IntegerField(choices=DeviceChoices.choices, null=True)
     ip = models.CharField(max_length=100)
     user_agent = models.CharField(max_length=1000)
 
