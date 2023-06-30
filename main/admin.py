@@ -6,15 +6,24 @@ from .models import StartEvent, AnswerEvent, ResultEvent
 
 
 class StartEventAdmin(admin.ModelAdmin):
-    readonly_fields = ("datetime",)
+    readonly_fields = (
+        "datetime",
+        "id",
+    )
 
 
 class AnswerEventAdmin(admin.ModelAdmin):
-    readonly_fields = ("datetime",)
+    readonly_fields = (
+        "datetime",
+        "id",
+    )
 
 
 class ResultEventAdmin(admin.ModelAdmin):
-    readonly_fields = ("datetime",)
+    readonly_fields = (
+        "datetime",
+        "id",
+    )
 
 
 admin.site.register(StartEvent, StartEventAdmin)
