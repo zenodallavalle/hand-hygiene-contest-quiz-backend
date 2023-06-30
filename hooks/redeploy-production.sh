@@ -1,7 +1,5 @@
 #!/bin/sh
 
-
-
 cd /var/www/vhosts/hand-hygiene-contest-quiz-backend
 
 git pull origin main
