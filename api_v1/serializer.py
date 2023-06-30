@@ -24,6 +24,7 @@ class StartEventSerializer(
     device_type = serializers.IntegerField(min_value=1, max_value=4, required=False)
     ip = serializers.CharField(max_length=100, read_only=True)
     user_agent = serializers.CharField(max_length=1000, read_only=True)
+    referrer = serializers.CharField(max_length=1000, required=False)
 
     latitude = serializers.FloatField(read_only=True)
     longitude = serializers.FloatField(read_only=True)
