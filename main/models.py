@@ -30,7 +30,7 @@ class StartEvent(models.Model):
     device_type = models.IntegerField(choices=DeviceChoices.choices, null=True)
     ip = models.CharField(max_length=100)
     user_agent = models.CharField(max_length=1000)
-    referrer = models.CharField(max_length=1000, null=True)
+    referrer = models.CharField(max_length=1000, null=True, default=None)
 
     latitude = models.FloatField(null=True)
     longitude = models.FloatField(null=True)
