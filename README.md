@@ -6,7 +6,7 @@ This repository contains the code for the backend of the Hand Hygiene Contest Qu
 
 Since registration is not required for the quiz, the backend stores only the quiz results and user data for statistics.
 
-The frontend is available on GitHub aswell at [https://github.com/zenodallavalle/hand-hygiene-contest-quiz-frontend](this link).
+The frontend is available on GitHub aswell [https://github.com/zenodallavalle/hand-hygiene-contest-quiz-frontend](here).
 
 ## Setup
 
