@@ -118,12 +118,19 @@ class ResultEvent(models.Model):
 @receiver(post_save, sender=StartEvent)
 @receiver(post_save, sender=AnswerEvent)
 @receiver(post_save, sender=ResultEvent)
-def retrace_captcha(sender, instance, created, **kwargs):
+def captcha(sender, instance, created, **kwargs):
     if created:
         if not instance.recaptcha_score:
             # Check score
             t = Thread(target=check_captcha_token, args=(instance,))
             t.start()
+
+
+@receiver(post_save, sender=StartEvent)
+# @receiver(post_save, sender=AnswerEvent)
+@receiver(post_save, sender=ResultEvent)
+def trace(sender, instance, created, **kwargs):
+    if created:
         if not instance.latitude and not instance.longitude:
             # Trace IP
             t = Thread(target=trace_ip, args=(instance,))
