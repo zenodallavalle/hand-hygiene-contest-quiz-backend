@@ -10,20 +10,19 @@ from api_v1.serializer import (
 )
 
 ALLOWED_METHODS = [
-    # "get",
+    "get",
     "post",
     # "put",
     # "patch",
     # "delete",
-    # "head",
-    # "options",
+    "head",
+    "options",
 ]
 
 
 class StartEventViewSet(viewsets.ModelViewSet):
     queryset = StartEvent.objects.all()
     serializer_class = StartEventSerializer
-    permission_classes = [permissions.AllowAny]
     http_method_names = ALLOWED_METHODS
     permission_classes = [AuthKeyPermission]
 
@@ -31,7 +30,6 @@ class StartEventViewSet(viewsets.ModelViewSet):
 class AnswerEventViewSet(viewsets.ModelViewSet):
     queryset = AnswerEvent.objects.all()
     serializer_class = AnswerEventSerializer
-    permission_classes = [permissions.AllowAny]
     http_method_names = ALLOWED_METHODS
     permission_classes = [AuthKeyPermission]
 
@@ -39,6 +37,5 @@ class AnswerEventViewSet(viewsets.ModelViewSet):
 class ResultEventViewSet(viewsets.ModelViewSet):
     queryset = ResultEvent.objects.all()
     serializer_class = ResultEventSerializer
-    permission_classes = [permissions.AllowAny]
     http_method_names = ALLOWED_METHODS
     permission_classes = [AuthKeyPermission]
