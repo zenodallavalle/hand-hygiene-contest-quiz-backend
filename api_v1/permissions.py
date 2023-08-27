@@ -4,7 +4,7 @@ from rest_framework import permissions
 
 class AuthKeyPermission(permissions.BasePermission):
     def has_permission(self, request, view):
-        if request.method != "GET":
+        if request.method == "POST":
             return (
                 hasattr(settings, "AUTH_KEY")
                 and request.headers.get("authorization", None) == settings.AUTH_KEY
@@ -12,7 +12,7 @@ class AuthKeyPermission(permissions.BasePermission):
         return request.user.is_authenticated
 
     def has_object_permission(self, request, view, obj):
-        if request.method != "GET":
+        if request.method == "POST":
             return (
                 hasattr(settings, "AUTH_KEY")
                 and request.headers.get("authorization", None) == settings.AUTH_KEY
