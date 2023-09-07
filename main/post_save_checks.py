@@ -28,6 +28,9 @@ def check_captcha_token(event_instance):
 
 def trace_ip(event_instance):
     n_try = 0
+    if not settings.IP_GEOLOCATION_SECRET_KEY:
+        print("IP tracing failed: no secret key")
+        return
     while n_try < 3:
         try:
             url = ""
