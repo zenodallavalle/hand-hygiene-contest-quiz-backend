@@ -27,24 +27,26 @@ class DeviceChoices(models.IntegerChoices):
 class StartEvent(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     device_uid = models.CharField(max_length=100)
-    device_type = models.IntegerField(choices=DeviceChoices.choices, null=True)
-    ip = models.CharField(max_length=100)
+    device_type = models.IntegerField(
+        choices=DeviceChoices.choices, null=True, blank=True
+    )
+    ip = models.CharField(max_length=100, null=True, blank=True)
     user_agent = models.CharField(max_length=1000)
-    referrer = models.CharField(max_length=1000, null=True, default=None)
+    referrer = models.CharField(max_length=1000, null=True, blank=True, default=None)
 
-    latitude = models.FloatField(null=True)
-    longitude = models.FloatField(null=True)
-    country_code = models.CharField(max_length=100, null=True)
-    country_name = models.CharField(max_length=100, null=True)
-    province = models.CharField(max_length=100, null=True)
-    district = models.CharField(max_length=100, null=True)
-    city = models.CharField(max_length=100, null=True)
-    zip_code = models.CharField(max_length=100, null=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+    country_code = models.CharField(max_length=100, null=True, blank=True)
+    country_name = models.CharField(max_length=100, null=True, blank=True)
+    province = models.CharField(max_length=100, null=True, blank=True)
+    district = models.CharField(max_length=100, null=True, blank=True)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    zip_code = models.CharField(max_length=100, null=True, blank=True)
 
-    isp = models.CharField(max_length=1000, null=True)
+    isp = models.CharField(max_length=1000, null=True, blank=True)
 
     recaptcha_token = models.CharField(max_length=2000)
-    recaptcha_score = models.FloatField(null=True)
+    recaptcha_score = models.FloatField(null=True, blank=True)
 
     quiz_uid = models.CharField(max_length=100)
     nickname = models.CharField(max_length=100)
@@ -61,15 +63,17 @@ class StartEvent(models.Model):
 class AnswerEvent(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     device_uid = models.CharField(max_length=100)
-    device_type = models.IntegerField(choices=DeviceChoices.choices, null=True)
-    ip = models.CharField(max_length=100)
+    device_type = models.IntegerField(
+        choices=DeviceChoices.choices, null=True, blank=True
+    )
+    ip = models.CharField(max_length=100, null=True, blank=True)
     user_agent = models.CharField(max_length=1000)
 
-    latitude = models.FloatField(null=True)
-    longitude = models.FloatField(null=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
 
     recaptcha_token = models.CharField(max_length=2000)
-    recaptcha_score = models.FloatField(null=True)
+    recaptcha_score = models.FloatField(null=True, blank=True)
 
     nickname = models.CharField(max_length=100)
     job = models.IntegerField(choices=JobChoices.choices)
@@ -91,15 +95,17 @@ class AnswerEvent(models.Model):
 class ResultEvent(models.Model):
     datetime = models.DateTimeField(auto_now_add=True)
     device_uid = models.CharField(max_length=100)
-    device_type = models.IntegerField(choices=DeviceChoices.choices, null=True)
-    ip = models.CharField(max_length=100)
+    device_type = models.IntegerField(
+        choices=DeviceChoices.choices, null=True, blank=True
+    )
+    ip = models.CharField(max_length=100, null=True, blank=True)
     user_agent = models.CharField(max_length=1000)
 
-    latitude = models.FloatField(null=True)
-    longitude = models.FloatField(null=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
 
     recaptcha_token = models.CharField(max_length=2000)
-    recaptcha_score = models.FloatField(null=True)
+    recaptcha_score = models.FloatField(null=True, blank=True)
 
     nickname = models.CharField(max_length=100)
     job = models.IntegerField(choices=JobChoices.choices)
