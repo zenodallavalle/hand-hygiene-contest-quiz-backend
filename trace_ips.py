@@ -11,7 +11,10 @@ import os
 from main.models import StartEvent
 from main.post_save_checks import trace_ip
 
-for event in StartEvent.objects.filter(city__isnull=True):
-    trace_ip(
-        event, IP_GEOLOCATION_SECRET_KEY=os.environ.get("IPGEOLOCATION_API_KEY", None)
-    )
+
+def trace():
+    for event in StartEvent.objects.filter(city__isnull=True):
+        trace_ip(
+            event,
+            IP_GEOLOCATION_SECRET_KEY=os.environ.get("IPGEOLOCATION_API_KEY", None),
+        )
