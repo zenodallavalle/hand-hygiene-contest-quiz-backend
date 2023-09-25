@@ -77,10 +77,7 @@ class AnswerEventAdmin(admin.ModelAdmin):
 
 
 class ResultEventAdmin(admin.ModelAdmin):
-    readonly_fields = (
-        "datetime",
-        "id",
-    )
+    readonly_fields = ("datetime", "id", "marks")
     search_fields = (
         "datetime",
         "job",
@@ -88,6 +85,7 @@ class ResultEventAdmin(admin.ModelAdmin):
         "device_uid",
         "ip",
         "nickname",
+        "marks",
     )
     list_display = (
         "datetime",
@@ -96,6 +94,7 @@ class ResultEventAdmin(admin.ModelAdmin):
         "device_uid",
         "ip",
         "nickname",
+        "marks",
     )
     list_filter = (
         "datetime",
@@ -104,6 +103,7 @@ class ResultEventAdmin(admin.ModelAdmin):
         "device_uid",
         "ip",
         "nickname",
+        "marks",
     )
 
 
