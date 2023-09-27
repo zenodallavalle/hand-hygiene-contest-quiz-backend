@@ -3,9 +3,18 @@ from rest_framework import serializers
 from main.models import AnswerEvent, ResultEvent, StartEvent
 
 
+def get_client_ip(request):
+    x_forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR")
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(",")[0]
+    else:
+        ip = request.META.get("REMOTE_ADDR")
+    return ip
+
+
 class AutoAddRemoteAddressAndUserAgentMixin:
     def create(self, validated_data):
-        validated_data["ip"] = self.context["request"].META.get("REMOTE_ADDR")
+        validated_data["ip"] = get_client_ip(self.context["request"])
         validated_data["user_agent"] = self.context["request"].META.get(
             "HTTP_USER_AGENT"
         )
