@@ -13,7 +13,7 @@ from main.post_save_checks import trace_ip
 
 
 def trace():
-    for event in StartEvent.objects.filter(city__isnull=True):
+    for event in StartEvent.objects.filter(city__isnull=True, ip__isnull=False):
         trace_ip(
             event,
             IP_GEOLOCATION_SECRET_KEY=os.environ.get("IPGEOLOCATION_API_KEY", None),
