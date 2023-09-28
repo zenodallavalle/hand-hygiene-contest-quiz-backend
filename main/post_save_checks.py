@@ -5,23 +5,23 @@ import pickle
 import time
 import os
 
-os.makedirs("dumps", exist_ok=True)
+# os.makedirs("dumps", exist_ok=True)
 
 
 def dump(initiator, message, str_to_dump, object_to_dump=None, pickle_dump=True):
     if not settings.ALLOW_DUMP:
         ## If not allowed to dump
         return
-    now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S.%f")
-    filename = f"dumps/{initiator}_{now}.txt"
-    pickle_filename = f"dumps/{initiator}_{now}.pickle"
-    with open(filename, "w") as f:
-        f.write(f"[{now}] [{initiator}] {message}\n")
-        f.write(str_to_dump)
-        f.write("\n\n")
-    if object_to_dump and pickle_dump:
-        with open(pickle_filename, "wb") as f:
-            pickle.dump(object_to_dump, f)
+    # now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S.%f")
+    # filename = f"dumps/{initiator}_{now}.txt"
+    # pickle_filename = f"dumps/{initiator}_{now}.pickle"
+    # with open(filename, "w") as f:
+    #     f.write(f"[{now}] [{initiator}] {message}\n")
+    #     f.write(str_to_dump)
+    #     f.write("\n\n")
+    # if object_to_dump and pickle_dump:
+    #     with open(pickle_filename, "wb") as f:
+    #         pickle.dump(object_to_dump, f)
 
 
 def check_captcha_token(event_instance):
