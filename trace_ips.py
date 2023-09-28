@@ -12,6 +12,18 @@ from main.models import StartEvent
 from main.post_save_checks import trace_ip
 
 
+def on_error_callback(*args, event, response_json, **kwargs):
+    message = response_json.get("message", "")
+    if not message:
+        return
+    if "private-use" in message.lower():
+        # As the site is accessed from a private IP it means is inside the local network, so the city will be Milan
+        event.city = "Milan"
+        event.latitude = 45.46796
+        event.longitude = 9.18178
+        event.save()
+
+
 def trace():
     for event in StartEvent.objects.filter(city__isnull=True, ip__isnull=False):
         trace_ip(

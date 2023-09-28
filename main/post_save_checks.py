@@ -26,7 +26,11 @@ def check_captcha_token(event_instance):
         n_try += 1
 
 
-def trace_ip(event_instance, IP_GEOLOCATION_SECRET_KEY=None):
+def trace_ip(
+    event_instance,
+    IP_GEOLOCATION_SECRET_KEY=None,
+    on_error_callback=lambda *args, **kwargs: None,
+):
     n_try = 0
     if not IP_GEOLOCATION_SECRET_KEY and not settings.IP_GEOLOCATION_SECRET_KEY:
         print("IP tracing failed: no secret key")
@@ -61,6 +65,9 @@ def trace_ip(event_instance, IP_GEOLOCATION_SECRET_KEY=None):
                 event_instance.save()
                 return
             else:
+                on_error_callback(
+                    event=event_instance, response=r, response_json=r.json()
+                )
                 print("IP tracing failed", r.status_code, r.json())
         except Exception as e:
             print("IP tracing failed", e)
