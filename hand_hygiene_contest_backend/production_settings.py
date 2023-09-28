@@ -153,3 +153,5 @@ CORS_ALLOW_CREDENTIALS = False
 AUTH_KEY = env_values.get("AUTH_KEY")
 CAPTCHA_SECRET_KEY = env_values.get("CAPTCHA_SECRET_KEY")
 IP_GEOLOCATION_SECRET_KEY = env_values.get("IP_GEOLOCATION_SECRET_KEY")
+
+ALLOW_DUMP = env_values.get("ALLOW_DUMP", "False") == "True"

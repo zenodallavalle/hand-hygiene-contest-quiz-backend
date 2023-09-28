@@ -1,10 +1,32 @@
 from django.conf import settings
 import requests
+from datetime import datetime
+import pickle
+import time
+import os
+
+os.makedirs("dumps", exist_ok=True)
+
+
+def dump(initiator, message, str_to_dump, object_to_dump=None, pickle=True):
+    if not settings.get("ALLOW_DUMP", True):
+        ## If not allowed to dump or setting is not defined:
+        return
+    now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S.%f")
+    filename = f"dumps/{initiator}_{now}.txt"
+    pickle_filename = f"dumps/{initiator}_{now}.pickle"
+    with open(filename, "w") as f:
+        f.write(f"[{now}] [{initiator}] {message}\n")
+        f.write(str_to_dump)
+        f.write("\n\n")
+    if object_to_dump and pickle:
+        with open(pickle_filename, "wb") as f:
+            pickle.dump(object_to_dump, f)
 
 
 def check_captcha_token(event_instance):
     n_try = 0
-    while n_try < 3:
+    while n_try < 10:
         try:
             url = "https://www.google.com/recaptcha/api/siteverify"
             payload = {
@@ -21,9 +43,22 @@ def check_captcha_token(event_instance):
                     return
             else:
                 print("Verification of captcha token failed", r.status_code, r.json())
+                dump(
+                    "check_captcha_token",
+                    "Verification of captcha token response not ok",
+                    f"{r.status_code} {r.json()}",
+                    r,
+                )
         except Exception as e:
             print("Verification of captcha token failed", e)
+            dump(
+                "check_captcha_token",
+                "Verification of captcha token exception",
+                str(e),
+                e,
+            )
         n_try += 1
+        time.sleep(0.15 * n_try)
 
 
 def trace_ip(
