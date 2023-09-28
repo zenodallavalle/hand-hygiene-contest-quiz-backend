@@ -8,9 +8,9 @@ import os
 os.makedirs("dumps", exist_ok=True)
 
 
-def dump(initiator, message, str_to_dump, object_to_dump=None, pickle=True):
-    if not settings.get("ALLOW_DUMP", True):
-        ## If not allowed to dump or setting is not defined:
+def dump(initiator, message, str_to_dump, object_to_dump=None, pickle_dump=True):
+    if not settings.ALLOW_DUMP:
+        ## If not allowed to dump
         return
     now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S.%f")
     filename = f"dumps/{initiator}_{now}.txt"
@@ -19,7 +19,7 @@ def dump(initiator, message, str_to_dump, object_to_dump=None, pickle=True):
         f.write(f"[{now}] [{initiator}] {message}\n")
         f.write(str_to_dump)
         f.write("\n\n")
-    if object_to_dump and pickle:
+    if object_to_dump and pickle_dump:
         with open(pickle_filename, "wb") as f:
             pickle.dump(object_to_dump, f)
 
@@ -41,6 +41,18 @@ def check_captcha_token(event_instance):
                     event_instance.recaptcha_score = j["score"]
                     event_instance.save()
                     return
+                else:
+                    print(
+                        "Verification of captcha token failed", r.status_code, r.json()
+                    )
+                    dump(
+                        "check_captcha_token",
+                        "Verification of captcha token failed",
+                        f"{r.status_code} {r.json()}",
+                        r,
+                    )
+                    if n_try >= 1:
+                        return
             else:
                 print("Verification of captcha token failed", r.status_code, r.json())
                 dump(
