@@ -44,12 +44,14 @@ def on_error_callback(*args, event, response, response_json, **kwargs):
 
 
 def trace():
+    start_events = StartEvent.objects.filter(city__isnull=True, ip__isnull=False)
+
     args = zip(
-        StartEvent.objects.filter(city__isnull=True, ip__isnull=False),
+        start_events,
         repeat(os.environ.get("IPGEOLOCATION_API_KEY", None)),
         repeat(on_error_callback),
     )
-    chunks = batched(args, len(args) // n_thread)
+    chunks = batched(args, len(start_events) // n_thread)
     threads = []
     for chunk in chunks:
         t = Thread(target=trace_ip, args=chunk)
