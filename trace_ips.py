@@ -7,26 +7,54 @@
 ## Remember to run this script manually from the command line, as it is not embedded in production.
 ## Remember to add IPGEOLOCATION_API_KEY to environment variables before running this script.
 
+from itertools import islice, repeat
 import os
+from threading import Thread
+
 from main.models import StartEvent
 from main.post_save_checks import trace_ip
 
+n_thread = 10
 
-def on_error_callback(*args, event, response_json, **kwargs):
+
+def batched(iterable, n):
+    "Batch data into tuples of length n. The last batch may be shorter."
+    # batched('ABCDEFG', 3) --> ABC DEF G
+    if n < 1:
+        raise ValueError("n must be at least one")
+    it = iter(iterable)
+    while batch := tuple(islice(it, n)):
+        yield batch
+
+
+def on_error_callback(*args, event, response, response_json, **kwargs):
     message = response_json.get("message", "")
     if not message:
+        print("IP tracing failed", response.status_code, response_json)
         return
     if "private-use" in message.lower():
+        print("Private IP address, setting Milan as city for IP: {}".format(event.ip))
         # As the site is accessed from a private IP it means is inside the local network, so the city will be Milan
         event.city = "Milan"
         event.latitude = 45.46796
         event.longitude = 9.18178
         event.save()
+        return
+    print("IP tracing failed", response.status_code, message)
 
 
 def trace():
-    for event in StartEvent.objects.filter(city__isnull=True, ip__isnull=False):
-        trace_ip(
-            event,
-            IP_GEOLOCATION_SECRET_KEY=os.environ.get("IPGEOLOCATION_API_KEY", None),
-        )
+    args = zip(
+        StartEvent.objects.filter(city__isnull=True, ip__isnull=False),
+        repeat(os.environ.get("IPGEOLOCATION_API_KEY", None)),
+        repeat(on_error_callback),
+    )
+    chunks = batched(args, len(args) // n_thread)
+    threads = []
+    for chunk in chunks:
+        t = Thread(target=trace_ip, args=chunk)
+        t.start()
+        threads.append(t)
+    for t in threads:
+        t.join()
+    print("Done")
