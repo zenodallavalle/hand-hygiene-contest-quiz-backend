@@ -27,6 +27,11 @@ def batched(iterable, n):
         yield batch
 
 
+def trace_multiple_ips(start_events, api_key, on_error_callback):
+    for start_event in start_events:
+        trace_ip(start_event, api_key, on_error_callback)
+
+
 def on_error_callback(*args, event, response, response_json, **kwargs):
     message = response_json.get("message", "")
     if not message:
@@ -44,17 +49,17 @@ def on_error_callback(*args, event, response, response_json, **kwargs):
 
 
 def trace():
-    start_events = StartEvent.objects.filter(city__isnull=True, ip__isnull=False)
-
-    args = zip(
-        start_events,
-        repeat(os.environ.get("IPGEOLOCATION_API_KEY", None)),
-        repeat(on_error_callback),
-    )
-    chunks = batched(args, len(start_events) // n_thread)
+    start_events = list(StartEvent.objects.filter(city__isnull=True, ip__isnull=False))
+    chunks = batched(start_events, len(start_events) // n_thread)
+    if not chunks:
+        print("No IP to trace")
+        return
     threads = []
     for chunk in chunks:
-        t = Thread(target=trace_ip, args=chunk)
+        t = Thread(
+            target=trace_multiple_ips,
+            args=(chunk, os.environ["IPGEOLOCATION_API_KEY"], on_error_callback),
+        )
         t.start()
         threads.append(t)
     for t in threads:
